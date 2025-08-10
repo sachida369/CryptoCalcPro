@@ -1,0 +1,59 @@
+Crpto wallet Replit AI prompt — build a secure client-side crypto paper-wallet generator webapp
+You are an expert secure web developer and crypto security engineer. Build a complete, production-ready, **client-side-only** Bitcoin paper-wallet generator webapp that can be deployed as a static site (Replit static hosting / GitHub Pages / Netlify). Follow every security precaution and best practice. Produce all code, build scripts, docs, and a release ZIP. Do NOT generate or transmit any private keys server-side; all secrets MUST be generated and stay in the user's browser only.
+Deliverables (exact files & behavior):
+1. Complete webapp source (single-page app) with files:
+- index.html
+- styles.css
+- app.js (ES module or bundled file)
+- /assets (icons, printable CSS)
+- /build scripts (package.json, rollup/webpack config or simple bundler)
+- README.md with security guidance and deployment steps
+- LICENSE (MIT)
+- RELEASE_CHECKSUM.txt (SHA256 of release ZIP)
+- offline_release.zip (an archive containing the same static files so users can download & run locally)
+2. App features:
+- 100% client-side crypto key generation using `window.crypto.getRandomValues` for entropy.
+- Support BIP39 mnemonics (12/18/24 words) with optional passphrase (user-supplied only).
+- Derive HD wallet addresses using BIP32/BIP44 and support common address formats: P2PKH, P2WPKH (bech32), and optionally P2SH-wrapped segwit.
+- Show derived addresses + WIF private key(s) and QR codes for address and private key.
+- Offer multiple address derivation paths (m/44'/0'/0'/0/0 etc.) and batch derive N addresses.
+- Provide a printable "paper wallet" template (print CSS page) and an option to export a printable PDF client-side (no server).
+- Provide an "Offline Verification" tool: show how to verify an address offline (instructions + code to compute address from mnemonic offline).
+- Provide clear, prominent security warnings: do not enter mnemonic/passphrase online; do not share private keys; recommended air-gapped usage.
+- Provide an option to download an encrypted keystore (AES-256) that encrypts only on client side and stores no keys server-side.
+- No analytics, no external trackers, and no calls to any external servers for key generation or storage.
+3. Security & supply-chain requirements (strict):
+- All crypto libraries must be pinned to exact versions. Prefer bundling libraries into the release build so no runtime CDN dependencies.
+- Use audited libraries (e.g., `bip39`, `bip32`, `bitcoinjs-lib` or other well-known libs). If using a third-party lib, cite exact version and source in README.
+- Implement Subresource Integrity (SRI) hints in docs if any CDN is used; but prefer fully bundled release.
+- Provide reproducible build instructions and a script that outputs `offline_release.zip` and `RELEASE_CHECKSUM.txt` (SHA256).
+- No server endpoints or telemetry. If any optional feature requires a server (email, print service), keep it optional and explicitly off by default.
+- Add linter and basic security scans in the repo (suggest `npm audit`, `npm ci` + `npm audit --audit-level=moderate`) and instruct how to run them.
+- Document threat model in README and common attack vectors (supply-chain, XSS, malicious CDN, browser compromise) with mitigations.
+4. UX / UI requirements:
+- Clean minimal interface with Generate, Advanced Options (mnemonic length, derivation path, passphrase), Show QR, Print, Download ZIP.
+- Show a clear entropy strength indicator and explanation of `window.crypto` usage.
+- Provide step-by-step "How to use offline" instructions with screenshots or ASCII diagram.
+- Print template must be printer-friendly: no external fonts, simple black-and-white optional theme for laser printers.
+5. Testing & verification:
+- Unit test examples for key derivation (JS test that given a known mnemonic produces a known address).
+- End-to-end manual test checklist in README (generate, verify on an air-gapped device, print, sweep funds).
+6. Deployment instructions:
+- How to deploy to Replit static hosting and GitHub Pages (including how to publish the offline ZIP for download).
+- Recommend publishing the repo public and encouraging independent audits.
+7. Legal & trust notes:
+- README must include a clear disclaimer: "This tool generates keys client-side; we are not responsible for user error or loss. Use at your own risk. For production custody use hardware wallets and best practices."
+- Provide a suggested CONTRIBUTING.md section for security researchers to report vulnerabilities.
+8. Additional optional features (implement if possible within scope):
+- Support for generating paper wallets for Bitcoin testnet (flag).
+- Basic open-source transparency: a signed release (gpg signature steps) and a SHA256 checksum for offline_release.zip.
+- Example bash command to verify checksum locally.
+9. Output formatting:
+- Provide the full source files inline (or as a zip) and a final short README summary that will appear at the top of the repo README.
+- In README include exact commands to build, run locally (open index.html), create offline_release.zip, and compute the checksum.
+Constraints (non-negotiable):
+- No server-side private key generation. Keys must never leave the user's browser unless the user explicitly downloads them (encrypted or plaintext) or prints them.
+- No analytics, no trackers, no remote logging, no CDN runtime dependency unless SRI and fallback to bundled libs are provided.
+- Use modern secure browser APIs; avoid deprecated crypto libraries.
+- Prioritize auditability, simplicity, and the ability for users to run offline (double-click index.html) with no network.
+Now: produce the complete project. Start by listing the file tree, then give each file's full content (index.html, app.js, styles.css, package.json, build scripts, README.md, LICENSE, and a build.sh that creates offline_release.zip and RELEASE_CHECKSUM.txt). Also include instructions to run basic tests and how to verify the checksum. Keep code readable and comment important security lines. End with a compact "Security checklist" that will appear on the home page.
